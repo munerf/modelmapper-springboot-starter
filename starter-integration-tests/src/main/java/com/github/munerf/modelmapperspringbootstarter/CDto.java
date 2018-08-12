@@ -1,22 +1,16 @@
 package com.github.munerf.modelmapperspringbootstarter;
 
+import javax.persistence.Id;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.*;
+public class CDto {
 
-@Entity
-public class C {
+    private Long id;
+
+    private String name;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @Column
-    String name;
-
-    @OneToMany
-    List<A> as;
+    private List<Long> as;
 
     public Long getId() {
         return id;
@@ -34,11 +28,11 @@ public class C {
         this.name = name;
     }
 
-    public List<A> getAs() {
+    public List<Long> getAs() {
         return as;
     }
 
-    public void setAs(List<A> as) {
+    public void setAs(List<Long> as) {
         this.as = as;
     }
 }

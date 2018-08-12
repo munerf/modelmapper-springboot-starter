@@ -1,5 +1,6 @@
 package com.github.munerf.modelmapperspringbootstarter;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -10,11 +11,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DemoApplicationTests {
+public class ModelMapperStarterIntegrationTests {
 
     @Autowired
     ApplicationContext context;
@@ -25,6 +28,11 @@ public class DemoApplicationTests {
     @Autowired
     ModelMapper modelMapper;
 
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
     @Test
     public void contextLoads() {
 
@@ -32,11 +40,11 @@ public class DemoApplicationTests {
 
         BDto bDto = new BDto();
         bDto.setName("bDto");
-        bDto.setA( new Long(1));
-        B map = modelMapper.map(bDto, B.class);
+        bDto.setA(1L);
+        B b = modelMapper.map(bDto, B.class);
 
-        assertThat(map.getName()).isEqualTo("bDto");
-        assertThat(map.getA().name).isEqualTo("a1");
+        assertThat(b.getName()).isEqualTo("bDto");
+        assertThat(b.getA().name).isEqualTo("a1");
     }
 
     @Test
@@ -44,11 +52,11 @@ public class DemoApplicationTests {
 
         BDto bDto = new BDto();
         bDto.setName("bDto");
-        bDto.setA( new Long(1));
-        B map = modelMapper.map(bDto, B.class);
+        bDto.setA(1L);
+        B b = modelMapper.map(bDto, B.class);
 
-        assertThat(map.getName()).isEqualTo("bDto");
-        assertThat(map.getA().name).isEqualTo("a1");
+        assertThat(b.getName()).isEqualTo("bDto");
+        assertThat(b.getA().name).isEqualTo("a1");
     }
 
     @Test
@@ -60,6 +68,22 @@ public class DemoApplicationTests {
 
         assertThat(map.getName()).isEqualTo("bDto");
         assertThat(map.getA()).isNull();
+
+    }
+
+    @Test
+    public void simpleEntityWithManyToOneIsMapped() {
+
+        Long[] bs = new Long[]{1L, 2L};
+
+        CDto cDto = new CDto();
+        cDto.setName("cDto");
+        cDto.setAs( Arrays.asList(bs) );
+        C c = modelMapper.map(cDto, C.class);
+
+        assertThat(c.getName()).isEqualTo("cDto");
+        assertThat(c.getAs().get(0).name).isEqualTo("a1");
+        assertThat(c.getAs().get(1).name).isEqualTo("a2");
 
     }
 
