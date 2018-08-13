@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.github.munerf.modelmapper-spring-boot-starter</groupId>
 	        <artifactId>modelmapper-spring-boot-starter</artifactId>
-        	<version>0.0.2-SNAPSHOT</version>
+        	<version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
