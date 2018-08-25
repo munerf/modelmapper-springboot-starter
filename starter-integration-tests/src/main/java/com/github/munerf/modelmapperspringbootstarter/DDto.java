@@ -1,16 +1,18 @@
 package com.github.munerf.modelmapperspringbootstarter;
 
-import javax.persistence.Id;
 import java.util.List;
 
-public class CDto {
+import javax.persistence.Id;
+
+public class DDto {
 
     private Long id;
 
     private String name;
 
-  //  @Id
     private List<Long> as;
+
+    private List<Long> bs;
 
     public Long getId() {
         return id;
@@ -34,5 +36,13 @@ public class CDto {
 
     public void setAs(List<Long> as) {
         this.as = as;
+    }
+
+    public List<Long> getBs() {
+        return bs;
+    }
+
+    public void setBs(List<Long> bs) {
+        this.bs = bs;
     }
 }

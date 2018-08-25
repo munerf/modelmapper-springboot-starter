@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.persistence.EntityManager;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -27,6 +28,9 @@ public class ModelMapperStarterIntegrationTests {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    ARepository aRepository;
 
 
     @Before
@@ -44,7 +48,7 @@ public class ModelMapperStarterIntegrationTests {
         B b = modelMapper.map(bDto, B.class);
 
         assertThat(b.getName()).isEqualTo("bDto");
-        assertThat(b.getA().name).isEqualTo("a1");
+        assertThat(b.getA().getName()).isEqualTo("a1");
     }
 
     @Test
@@ -56,7 +60,21 @@ public class ModelMapperStarterIntegrationTests {
         B b = modelMapper.map(bDto, B.class);
 
         assertThat(b.getName()).isEqualTo("bDto");
-        assertThat(b.getA().name).isEqualTo("a1");
+        assertThat(b.getA().getName()).isEqualTo("a1");
+    }
+
+    @Test
+    public void simpleDtoWithOneToOneIsMapped() {
+
+        B b = new B();
+        b.setName("bDto");
+
+        A a = aRepository.findById(1L).get();
+        b.setA(a);
+        BDto bDto = modelMapper.map(b, BDto.class);
+
+        assertThat(bDto.getName()).isEqualTo("bDto");
+        assertThat(bDto.getA()).isEqualTo(1L);
     }
 
     @Test
@@ -82,8 +100,25 @@ public class ModelMapperStarterIntegrationTests {
         C c = modelMapper.map(cDto, C.class);
 
         assertThat(c.getName()).isEqualTo("cDto");
-        assertThat(c.getAs().get(0).name).isEqualTo("a1");
-        assertThat(c.getAs().get(1).name).isEqualTo("a2");
+        assertThat(c.getAs().get(0).getName()).isEqualTo("a1");
+        assertThat(c.getAs().get(1).getName()).isEqualTo("a2");
+
+    }
+
+    @Test
+    public void simpleDtoWithManyToOneIsMapped() {
+
+        C c = new C();
+        c.setName("c1");
+
+        List<A> as = aRepository.findAll();
+        c.setAs(as);
+
+        CDto cDto = modelMapper.map(c, CDto.class);
+
+        assertThat(cDto.getName()).isEqualTo("c1");
+        assertThat(cDto.getAs().get(0)).isEqualTo(1L);
+        assertThat(cDto.getAs().get(1)).isEqualTo(2L);
 
     }
 
