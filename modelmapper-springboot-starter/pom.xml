@@ -92,7 +92,6 @@
                     <squash>false</squash>
                     <scmCommentPrefix>[RELEASE]</scmCommentPrefix>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <pushReleases>true</pushReleases>
                 </configuration>
             </plugin>
         </plugins>
