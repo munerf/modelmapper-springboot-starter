@@ -4,7 +4,7 @@
 
 	<groupId>com.github.munerf.modelmapper-spring-boot-starter</groupId>
 	<artifactId>modelmapper-spring-boot-starter</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 
     <name>modelmapper-spring-boot-starter</name>
     <description>Spring Boot starter for ModelMapper</description>
