@@ -32,6 +32,9 @@ public class ModelMapperStarterIntegrationTests {
     @Autowired
     ARepository aRepository;
 
+    @Autowired
+    BRepository bRepository;
+
 
     @Before
     public void setUp() throws Exception {
@@ -92,11 +95,11 @@ public class ModelMapperStarterIntegrationTests {
     @Test
     public void simpleEntityWithManyToOneIsMapped() {
 
-        Long[] bs = new Long[]{1L, 2L};
+        Long[] as = new Long[]{1L, 2L};
 
         CDto cDto = new CDto();
         cDto.setName("cDto");
-        cDto.setAs( Arrays.asList(bs) );
+        cDto.setAs( Arrays.asList(as) );
         C c = modelMapper.map(cDto, C.class);
 
         assertThat(c.getName()).isEqualTo("cDto");
@@ -119,6 +122,51 @@ public class ModelMapperStarterIntegrationTests {
         assertThat(cDto.getName()).isEqualTo("c1");
         assertThat(cDto.getAs().get(0)).isEqualTo(1L);
         assertThat(cDto.getAs().get(1)).isEqualTo(2L);
+
+    }
+
+    @Test
+    public void complexDtoWithTwoManyToOneIsMapped() {
+
+        D d = new D();
+        d.setName("d1");
+
+        List<A> as = aRepository.findAll();
+        d.setAs(as);
+
+        List<B> bs = bRepository.findAll();
+        d.setBs(bs);
+
+        DDto dDto = modelMapper.map(d, DDto.class);
+
+        assertThat(dDto.getName()).isEqualTo("d1");
+        assertThat(dDto.getAs().get(0)).isEqualTo(1L);
+        assertThat(dDto.getAs().get(1)).isEqualTo(2L);
+
+        assertThat(dDto.getBs().get(0)).isEqualTo(1L);
+        assertThat(dDto.getBs().get(1)).isEqualTo(2L);
+
+    }
+
+    @Test
+    public void complexEntityWithTwoManyToOneIsMapped() {
+
+        Long[] as = new Long[]{1L, 2L};
+        Long[] bs = new Long[]{1L, 2L};
+
+        DDto dDto = new DDto();
+        dDto.setName("dDto");
+        dDto.setAs( Arrays.asList(as) );
+        dDto.setBs( Arrays.asList(bs) );
+
+        D d = modelMapper.map(dDto, D.class);
+
+        assertThat(d.getName()).isEqualTo("dDto");
+        assertThat(d.getAs().get(0).getName()).isEqualTo("a1");
+        assertThat(d.getAs().get(1).getName()).isEqualTo("a2");
+
+        assertThat(d.getBs().get(0).getName()).isEqualTo("b1");
+        assertThat(d.getBs().get(1).getName()).isEqualTo("b2");
 
     }
 

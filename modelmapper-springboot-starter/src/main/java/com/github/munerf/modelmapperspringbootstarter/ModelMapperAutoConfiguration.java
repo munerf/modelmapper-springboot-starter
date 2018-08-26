@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 
 @Configuration
 @ConditionalOnWebApplication
-@Import(WebMvcConfig.class)
 public class ModelMapperAutoConfiguration {
 
     private final EntityManager entityManager;
