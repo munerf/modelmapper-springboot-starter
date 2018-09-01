@@ -50,8 +50,9 @@ public class RequestResponseBodyDtoMethodProcessor extends RequestResponseBodyMe
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+
         Object dto = super.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
-        Object id = getEntityId(dto);
+        Object id = StarterUtils.getEntityId(dto);
         if (id == null) {
             return modelMapper.map(dto, parameter.getParameterType());
         } else {
@@ -59,30 +60,20 @@ public class RequestResponseBodyDtoMethodProcessor extends RequestResponseBodyMe
             modelMapper.map(dto, persistedObject);
             return persistedObject;
         }
+
     }
 
     @Override
-    protected Object readWithMessageConverters(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType) throws IOException, HttpMediaTypeNotSupportedException, HttpMessageNotReadableException {
+    protected Object readWithMessageConverters(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType)
+            throws IOException, HttpMediaTypeNotSupportedException, HttpMessageNotReadableException {
+
         for (Annotation ann : parameter.getParameterAnnotations()) {
             RequestResponseBodyDto requestResponseBodyDtoType = AnnotationUtils.getAnnotation(ann, RequestResponseBodyDto.class);
             if (requestResponseBodyDtoType != null) {
                 return super.readWithMessageConverters(inputMessage, parameter, requestResponseBodyDtoType.value());
             }
         }
-        throw new RuntimeException();
-    }
 
-    private Object getEntityId(@NotNull Object dto) {
-        for (Field field : dto.getClass().getDeclaredFields()) {
-            if (field.getAnnotation(Id.class) != null) {
-                try {
-                    field.setAccessible(true);
-                    return field.get(dto);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return null;
+        throw new RuntimeException();
     }
 }

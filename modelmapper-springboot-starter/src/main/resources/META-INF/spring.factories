@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.github.munerf.modelmapperspringbootstarter.ModelMapperAutoConfiguration
+  com.github.munerf.modelmapperspringbootstarter.ModelMapperAutoConfiguration,\
+  com.github.munerf.modelmapperspringbootstarter.ModelMapperWebMvcAutoConfig

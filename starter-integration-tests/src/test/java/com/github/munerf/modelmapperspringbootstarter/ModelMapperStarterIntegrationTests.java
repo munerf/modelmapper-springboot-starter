@@ -37,21 +37,13 @@ public class ModelMapperStarterIntegrationTests {
 
 
     @Before
-    public void setUp() throws Exception {
-    }
+    public void setUp() { }
 
     @Test
     public void contextLoads() {
 
         assertThat((context.containsBean("modelMapper"))).isTrue();
 
-        BDto bDto = new BDto();
-        bDto.setName("bDto");
-        bDto.setA(1L);
-        B b = modelMapper.map(bDto, B.class);
-
-        assertThat(b.getName()).isEqualTo("bDto");
-        assertThat(b.getA().getName()).isEqualTo("a1");
     }
 
     @Test
