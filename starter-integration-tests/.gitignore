@@ -1,4 +1,4 @@
-target/
+/target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -22,6 +22,4 @@ target/
 /nbbuild/
 /dist/
 /nbdist/
-
-### OSX ###
-.DS_Store
+/.nb-gradle/
